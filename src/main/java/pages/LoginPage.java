@@ -1,6 +1,10 @@
 package pages;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage extends Page{
     private final By emailArea= By.id("login-email");
@@ -8,6 +12,7 @@ public class LoginPage extends Page{
     private final By loginButton = By.cssSelector(".p-button-wrapper.p-primary.p-large.p-fluid.login-button");
     private final By passwordArea = By.xpath("//input[@type='password']");
     private final By closePopup = By.xpath("//button[contains(text(),'Hayır')]");// veya doğru locator
+    private final By passwordError = By.cssSelector("div.label-error");
     public LoginPage(WebDriver driver)
     {
 
@@ -41,18 +46,18 @@ public class LoginPage extends Page{
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
     }
 
-    public void clickLogin(){
-        try {
-            // Sayfayı scroll et
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(loginButton));
-            Thread.sleep(1000);
-            waitForElement(loginButton);
-            driver.findElement(loginButton).click();
-            System.out.println("Giriş Yap butonuna tıklandı");
-        } catch (Exception e) {
-            System.out.println("Giriş Yap hatası: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public void clickLogin() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Elementini bul ve görünür olmasını bekle
+        WebElement loginBtn = wait.until(ExpectedConditions.presenceOfElementLocated(loginButton));
+
+        // Scroll et
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", loginBtn);
+
+        // Tıklanabilir olmasını bekle ve tıkla
+        wait.until(ExpectedConditions.elementToBeClickable(loginBtn)).click();
+        System.out.println("Giriş Yap butonuna tıklandı");
     }
     public String getErrorMessage(){
         try {
@@ -67,5 +72,18 @@ public class LoginPage extends Page{
         return (String) ((JavascriptExecutor) driver)
                 .executeScript("return arguments[0].validationMessage;", emailInput);
     }
+
+    public String getPasswordErrorMessage() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Elementini bul ve görünür olmasını bekle
+        WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordError));
+
+        // Scroll et (mesaj ekranın aşağısında olabilir)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", errorElement);
+
+        return errorElement.getText();
+    }
 }
+
 

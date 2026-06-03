@@ -13,10 +13,8 @@ public class HomePage extends Page {
     private final By cookieButton = By.id("onetrust-accept-btn-handler");
     private final By girisYapMenu = By.cssSelector(".user-text.navigation-text");
     private final By loginButton = By.cssSelector(".p-button-wrapper.p-primary.p-small.login-btn");
-    private final By kategorilerButton = By.xpath("//span[@class='category-tab-text']");
     private final By genderModalClose = By.cssSelector(".modal-section-close");
     private final By myAccount = By.cssSelector(".user-text.navigation-text");    // Ana sayfada arama kutusu önce bir BUTON olarak görünür
-    private final By myFavourites = By.cssSelector(".favorites-text navigation-text");
     private final By searchPlaceholder = By.cssSelector("button[data-testid='suggestion-placeholder']");
     // Butona tıklayınca aktifleşen gerçek input
     private final By searchBox = By.cssSelector("input[data-testid='browsing-search-input']");
@@ -78,44 +76,9 @@ public class HomePage extends Page {
         element.sendKeys(productName);
         element.sendKeys(Keys.ENTER);
     }
-
-    public void selectCategoryPath(String mainCategory, String subCategory, String item) {
-        Actions actions = new Actions(driver);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-        // 1. Kategoriler'e HOVER
-        WebElement katBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(kategorilerButton));
-        actions.moveToElement(katBtn).perform();
-
-        // 2. Ana kategoriye HOVER (Erkek) — section-item linkine
-        By mainCatLocator = By.xpath("//a[contains(@class,'section-item')][.//p[normalize-space()='" + mainCategory + "']]");
-        WebElement mainCat = wait.until(ExpectedConditions.visibilityOfElementLocated(mainCatLocator));
-        actions.moveToElement(mainCat).perform();
-
-        // 3. Alt kategoriye HOVER (Giyim)
-        By subCatLocator = By.xpath("//a[contains(@class,'subcategory-link') and normalize-space()='" + subCategory + "']");
-        WebElement subCat = wait.until(ExpectedConditions.visibilityOfElementLocated(subCatLocator));
-        actions.moveToElement(subCat).perform();
-
-        // 4. Ürüne TIKLA (Tişört)
-        By itemLocator = By.xpath("//a[contains(@class,'subcategory-item-children-link') and normalize-space()='" + item + "']");
-        wait.until(ExpectedConditions.elementToBeClickable(itemLocator)).click();
-    }
-    private By getCategoryLocator(String categoryName) {
-        return By.xpath("//p[@class='section-name' and contains(text(), '" + categoryName + "')]");
-    }
-
-    private By getItemLocator(String itemName) {
-        return By.xpath("//a[contains(text(), '" + itemName + "')]");
-    }
-
     public String getAccountMenuText() {
         waitForElement(myAccount);
         return driver.findElement(myAccount).getText();
     }
 
-    public String getFavouritesMenuText() {
-        waitForElement(myFavourites);
-        return driver.findElement(myFavourites).getText();
-    }
 }

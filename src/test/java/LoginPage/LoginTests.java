@@ -89,4 +89,23 @@ public class LoginTests extends BaseTests {
         assertEquals(expectedMessage, actualMessage,
                 "Beklenen: " + expectedMessage + ", Alınan: " + actualMessage);
     }
+
+    @Test
+    public void loginFailedEmptyPassword() {
+        HomePage homePage=new HomePage(driver);
+        homePage.acceptIfCookiesPresent();
+        homePage.selectGender("Erkek");
+        homePage.hoverLoginMenu();
+        homePage.clickLogin();
+        LoginPage loginPage=new LoginPage(driver);
+        loginPage.enterEmail(config.getProperty("trendyol.email"));
+        loginPage.clickContinue();
+        loginPage.clickLogin();
+        String expectedMessage="E-postanızı ve şifrenizi girin";
+        String actualMessage=loginPage.getPasswordErrorMessage();
+
+        assertEquals(expectedMessage,actualMessage,"Hata mesajları uyuşmamaktadır");
+
+    }
+
 }
