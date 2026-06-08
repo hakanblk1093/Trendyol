@@ -80,5 +80,5 @@ public class HomePage extends Page {
         waitForElement(myAccount);
         return driver.findElement(myAccount).getText();
     }
-
+    
 }
