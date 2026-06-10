@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FilterTests extends BaseTests {
 
     @Test
-    public void filterTestT_shirt() {
+    public void filterTestT_shirt() throws InterruptedException {
         driver.get("https://www.trendyol.com/erkek-t-shirt-x-g2-c73");
 
         HomePage homePage = new HomePage(driver);
@@ -34,7 +34,7 @@ public class FilterTests extends BaseTests {
     }
 
     @Test
-    public void filterTestShirts() {
+    public void filterTestShirts() throws InterruptedException {
         driver.get("https://www.trendyol.com/erkek-gomlek-x-g2-c75");
         HomePage homePage=new HomePage(driver);
         homePage.acceptIfCookiesPresent();

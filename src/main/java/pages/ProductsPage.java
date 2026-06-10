@@ -14,21 +14,22 @@ public class ProductsPage extends Page {
         super(driver);
     }
 
-    public void searchBrand(String brandName) {
+    public void searchBrand(String brandName) throws InterruptedException {
         waitForElement(filterSearchArea);
         driver.findElement(filterSearchArea).sendKeys(brandName);
 
-        // Arama sonucu görünene kadar bekle
+        Thread.sleep(2500);  // Arama sonuçlarının gelmesini bekle
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//span[@class='checkbox-label' and text()='" + brandName + "']")
+                By.xpath("//span[@class='checkbox-label' and contains(text(), '" + brandName + "')]")
         ));
     }
 
     public void selectBrandFromSearch(String brandName) {
-        By resultLocator = By.xpath("//span[@class='checkbox-label' and text()='" + brandName + "']");
-        waitForElement(resultLocator);
-        driver.findElement(resultLocator).click();
-        System.out.println(brandName + " seçildi");
+      By resultLocator = By.xpath("//span[@class='checkbox-label' and contains(text(), '" + brandName + "')]");
+     waitForElement(resultLocator);
+    driver.findElement(resultLocator).click();
+    System.out.println(brandName + " seçildi");
     }
 }
