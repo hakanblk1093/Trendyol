@@ -17,7 +17,7 @@ jobs:
       - name: Java 17 Kur
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '24'
           distribution: 'temurin'
 
       - name: Maven Cache
