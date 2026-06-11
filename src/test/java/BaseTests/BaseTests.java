@@ -12,11 +12,10 @@ import java.util.Properties;
 
 public class BaseTests {
     protected WebDriver driver;
-    protected Properties config;   // ← config kutusu, tüm testler erişebilsin diye protected
+    protected Properties config;
 
     @BeforeEach
     void setUp(){
-        // Config dosyasını yükle
         config = new Properties();
         try {
             config.load(new FileInputStream("src/test/resources/config.properties"));
@@ -26,6 +25,13 @@ public class BaseTests {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
+
+        if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+        }
+
         driver = new ChromeDriver(options);
         driver.get("https://www.trendyol.com/");
         driver.manage().window().maximize();
