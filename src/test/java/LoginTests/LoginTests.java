@@ -1,4 +1,4 @@
-package LoginPage;
+package LoginTests;
 
 import BaseTests.BaseTests;
 import org.junit.jupiter.api.Test;

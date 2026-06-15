@@ -15,6 +15,7 @@ public class HomePage extends Page {
     private final By loginButton = By.cssSelector(".p-button-wrapper.p-primary.p-small.login-btn");
     private final By genderModalClose = By.cssSelector(".modal-section-close");
     private final By myAccount = By.cssSelector(".user-text.navigation-text");    // Ana sayfada arama kutusu önce bir BUTON olarak görünür
+    private final By logoutButton = By.cssSelector("div[data-testid='account-menu-logout']");
     private final By searchPlaceholder = By.cssSelector("button[data-testid='suggestion-placeholder']");
     // Butona tıklayınca aktifleşen gerçek input
     private final By searchBox = By.cssSelector("input[data-testid='browsing-search-input']");
@@ -79,6 +80,18 @@ public class HomePage extends Page {
     public String getAccountMenuText() {
         waitForElement(myAccount);
         return driver.findElement(myAccount).getText();
+    }
+
+    public void logout() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.textToBe(myAccount, "Hesabım"));  // ← login tamamlandı mı?
+
+        Actions actions = new Actions(driver);
+        WebElement account = driver.findElement(myAccount);
+        actions.moveToElement(account).perform();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButton));
+        driver.findElement(logoutButton).click();
     }
     
 }

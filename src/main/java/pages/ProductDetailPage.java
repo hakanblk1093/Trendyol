@@ -47,4 +47,7 @@ public class ProductDetailPage extends Page{
             System.out.println("Tanıtım turu çıkmadı.");
         }
     }
+
+
+
 }

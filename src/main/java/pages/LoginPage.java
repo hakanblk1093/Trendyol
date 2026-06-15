@@ -50,7 +50,8 @@ public class LoginPage extends Page{
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement loginBtn = wait.until(ExpectedConditions.presenceOfElementLocated(loginButton));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", loginBtn);
-        wait.until(ExpectedConditions.elementToBeClickable(loginBtn)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginBtn));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", loginBtn);
         System.out.println("Giriş Yap butonuna tıklandı");
     }
     
